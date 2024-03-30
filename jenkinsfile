@@ -23,7 +23,7 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/r/shahmeer312/assignment1', DOCKER_HUB_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com/r/shahmeer312', DOCKER_HUB_CREDENTIALS) {
                         docker.image('shahmeer312/assignment1:${env.BUILD_NUMBER}').push()
                     }
                 }
