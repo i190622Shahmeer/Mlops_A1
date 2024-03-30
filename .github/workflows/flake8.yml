@@ -3,7 +3,7 @@ name: Flake8 Code Quality Check
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   flake8-check:
