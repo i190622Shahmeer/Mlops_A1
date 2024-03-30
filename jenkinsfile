@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('dckr_pat_LMxcjRyBYVaIZfaq3CvLoRgwkBI')
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build('shahmeer312/assignment1:${env.BUILD_NUMBER}')
+                }
+            }
+        }
+        
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://hub.docker.com/r/shahmeer312', DOCKER_HUB_CREDENTIALS) {
+                        docker.image('shahmeer312/assignment1:${env.BUILD_NUMBER}').push()
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+name: Test and Deploy Workflow
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  feature-testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Run Unit Tests
+        run: |
+          # Command to run unit tests
+          python -m unittest discover -s tests -p '*_test.py'
+
+  merge-to-main:
+    runs-on: ubuntu-latest
+    needs: feature-testing
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Merge to Main
+        run: |
+          # Command to merge changes from dev to master
+          git checkout main
+          git merge dev
+          # Push changes to main
+          git push origin main
