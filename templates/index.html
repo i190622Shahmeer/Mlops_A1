@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <title>Aircraft Route Optimization with Genetic Algorithm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    output {
+      display: block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Aircraft Route Optimization with Genetic Algorithm</h1>
+  </header>
+
+  <main>
+    <form id="routeForm" method="post" action="{{ url_for('search') }}">
+      <label for="source">Source City:</label>
+      <input type="text" id="source" name="source" required>
+
+      <label for="destination">Destination City:</label>
+      <input type="text" id="destination" name="destination" required>
+
+      <label for="date">Date:</label>
+      <input type="text" id="date" name="date" required>
+
+      <button type="button" id="searchButton">Search</button>
+
+      <label for="bestRouteOutput">This is the best route:</label>
+      <output id="bestRouteOutput"></output>
+    </form>
+  </main>
+
+  <script>
+    
+    $(document).ready(function() {
+        console.log('jQuery is ready.');
+    });
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('searchButton').addEventListener('click', function() {
+            console.log('Search button clicked with vanilla JavaScript.');
+            
+            var formData = {
+                'source': $('#source').val(),
+                'destination': $('#destination').val(),
+                'date': $('#date').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/search',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#bestRouteOutput').text('Best route: ' + response.best_route);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Error:', textStatus, errorThrown);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
